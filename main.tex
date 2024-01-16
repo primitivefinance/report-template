@@ -42,14 +42,18 @@
 
 \usepackage{xcolor}
 \usepackage{relsize}
+\usepackage{fontspec}
+\usepackage{tikz}
+
 
 % Adding breaklines=true to minted's settings seems to produce some errors related to fonts. This is
 % the only fix that worked.
 % https://stackoverflow.com/questions/70075331/pdflatex-file-cmss10-t3-cannot-open-type-1-font-file-for-read
 
 \pdfmapfile{-mpfonts.map}
-
 \begin{document}
+\setmainfont{Daggersquare regular.otf}
+
 
 \include{title.tex}
 

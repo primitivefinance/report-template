@@ -2,10 +2,9 @@
 
 Primitive is a team of deeply technical passionate indciduals, building
 the future of finance.
+You can find more information about us at \href{https://primitive.finance}{primitive.finance}.
 
 \section{Introduction}\label{introduction}
-
-Some introduction on the protocol
 
 The focus of the security review was on the following:
 
@@ -13,17 +12,71 @@ The focus of the security review was on the following:
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Specific security concern 1.
+  Measure the saftey critical properties of the dispute games.
 \item
-  Specific security concern 2.
+  Measure the economic security of the bond mechanisms.
 \item
-  Specific security concern 3.
+  Statefully fuzz the system over different conditions.
 \end{enumerate}
 
 \emph{Disclaimer:} This security review does not guarantee against a
 hack. It is a snapshot in time of brink according to the specific commit
 by a three person team. Any modifications to the code will require a new
 security review.
+
+\subsection{Agent Based Modeling}\label{agent-based-modeling}
+
+Arbiter uses agent based modeling with the rust evm to provide security
+and risk analysis insights that are traditionally more difficult to
+audit. Our agent architecture for the dispute game is as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  Oracle Agent: Responsible for syncing the dispute game state by
+  loading the latest claim and then solving the correct move for that
+  claim by making an api call to durin. The oracle agent will then send
+  honest moves to the honest agent.
+\item
+  Honest Agent: The Honest Agent is responsible for receiving the honest
+  moves from the oracle agent and then acting on them in the dispute
+  game.
+\item
+  Dishonest Agent: The Dishonest Agent is responsible for acting
+  attempting to resolve an incorrect move in the dispute game, We will
+  perturb the dishonest agent to look for insecurities in the protocol.
+\end{itemize}
+
+\subsection{Simulation Components}\label{simulation-components}
+
+The system is composed of several agents and contracts. Below is a table
+summarizing these components:
+
+\begin{itemize}
+\item \textbf{Agents:}
+  \begin{itemize}
+  \item Oracle Agent: Responsible for syncing the dispute game state by loading the latest claim and then solving the correct move for that claim by making an api call to durin. The oracle agent will then send honest moves to the honest agent.
+  \item Honest Agent: Responsible for receiving the honest moves from the oracle agent and then acting on them in the dispute game.
+  \item Dishonest Agent: Responsible for attempting to resolve an incorrect move in the dispute game. We will perturb the dishonest agent to look for insecurities in the protocol.
+  \end{itemize}
+\item \textbf{Contracts:}
+  \begin{itemize}
+  \item Dispute Game: Holds all moves currently in the dispute game.
+  \item Dispute Game Factory: Has pointers to all created dispute games.
+  \end{itemize}
+\item \textbf{Oracle:}
+  \begin{itemize}
+  \item Durin: A single oracle used in the system.
+  \end{itemize}
+\end{itemize}
+
+% maybe put a nice photo from miro here
+
+\subsection{Risk Modeling}\label{risk-modeling}
+
+We will perturb over the infinite space of dishost actors for the
+dispute game. We will also perturb various L1 preposals. This will
+enable us to model the risk of the protocol in a more robust way.
 
 \section{Findings}\label{findings}
 
