@@ -6,17 +6,18 @@ You can find more information about us at \href{https://primitive.finance}{primi
 
 \section{Introduction}\label{introduction}
 
-The focus of the security review was on the following:
+This report is a security review of the Optimism Decentralization infrastructure: The dispute game.
+
+\subsection{Dispute Game}\label{dispute-game}
+
+The dispute game is a game theoretic game that will decentralize the technical infrastructure of the Optimism Stack.
+This engadgement is designed to investigate these assumptions at both a game thoeritic level and a technical level.
+The focus of the security review was trying to break the two assumptions
 
 \begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\tightlist
-\item
-  Measure the saftey critical properties of the dispute games.
-\item
-  Measure the economic security of the bond mechanisms.
-\item
-  Statefully fuzz the system over different conditions.
+  \tightlist
+  \item An honest player should never loose the dispute game.
+  \item It should always be profitable to be an honest player.
 \end{enumerate}
 
 \emph{Disclaimer:} This security review does not guarantee against a
@@ -49,8 +50,7 @@ audit. Our agent architecture for the dispute game is as follows:
 
 \subsection{Simulation Components}\label{simulation-components}
 
-The system is composed of several agents and contracts. Below is a table
-summarizing these components:
+The system is composed of several agents and contracts. Below is a summary of the components:
 
 \begin{itemize}
 \item \textbf{Agents:}
@@ -72,11 +72,13 @@ summarizing these components:
 
 % maybe put a nice photo from miro here
 
+\subsection{Simulation Setup}\label{simulation-setup}
+The state of the evm we simulated on was created by running a forge deploy script to an anvil instance and then dumping the state. The instance was then loaded into revm through arbiter.
+
 \subsection{Risk Modeling}\label{risk-modeling}
 
 We will perturb over the infinite space of dishost actors for the
-dispute game. We will also perturb various L1 preposals. This will
-enable us to model the risk of the protocol in a more robust way.
+dispute game. We will also perturb various L1 preposals. This willenable us to model the risk of the protocol in a more robust way. We will also measure the bond mechanics of the dispute game to ensure that there are no game theoretic attacks that can be made on the protocol.
 
 \section{Findings}\label{findings}
 
