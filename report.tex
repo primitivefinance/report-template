@@ -14,11 +14,70 @@ The dispute game is a game theoretic game that will decentralize the technical i
 This engadgement is designed to investigate these assumptions at both a game thoeritic level and a technical level.
 The focus of the security review was trying to break the two assumptions
 
+\subsubsection{How does OpLabs define sucess}
+I asked ben how he would define sucess for the engadgement and he was thinking (very rough estimates we can change)
+Sucess: 
+
+\begin{itemize}
+  \item 100M Sims run on a (single or many but takes about 45min to compute) connon trace (on avg 1.5b instructions) with at least 5 agents behaviors.
+  \item Bonding: Something showing the volatility at risk of bonding profile (the probability of a bond going under water for given gas worst case gas movement and what that would mean for Layer one). (was a specific ask)
+  \item A report with analysis insights outlined for decision makers (this document will evolve into this).
+  \item I(Waylon) believe there is value to be offered in theoretical results of strong security properties. This is more the tastful way in which we can deliver this.
+\end{itemize}
+
+\subsubsection{Conservative Time Estimates}
+I believe that is we allocated 2-3 people (Waylon, Colin, maybe Matt), full time work it would take 8 Weeks. 
+I think that we can't work on all of it all the time but there is certainly going to be things that everyone can help out with.
+That being said I think that Matt and Colin have the most experience writing simulations and our the strongest candidates for the job. 
+I waylon want to own this engadge and take responsibility if things go wrong 
+
+\subsubsection{Resources on the dispute game}
+
+\begin{itemize}
+  \item \href{https://www.youtube.com/watch?v=nIN5sNc6nQM}{Optimism Dispute Game Overview}
+  \item \href{https://github.com/ethereum-optimism/optimism/blob/develop/specs/fault-dispute-game.md}{Optimism Specs}
+  \item \href{https://github.com/anton-rs/durin}{Durin}
+  \item \href{https://www.notion.so/oplabs/Bondorama-886cd1cfefcc44649f3e16f47d9a4477?pvs=4}{notion on some elementary bond analysis}
+  \item \href{}{Our Shared Repository: Pending clabby on this}
+\end{itemize}
+
+A dispute game is an abstraction over a state machine that takes in an input from an ordered set (instruction).
+
+State machine is defined as a five tuple $\{\Sigma, S, S_0, \delta, F\}$ follows:
+
+$\Sigma$ is the Set of all inputs denoted by an alphabet $\sigma$. $\Sigma$ represents all the possible states of the MIPs Cannon VM (link to cannon), which is a subset of 55 instructions of the MIPs architecture and several linux sys calls. The system calls are for user io which are done through the kernal.}
+
+In the dispute game state machine both the states and the inputs are the same such that $\Sigma = \S$.
+
+The initial State $S_0$ is the state a constant refered to as the absolute prestate. 
+
+The state transition function denoted $\delta: (S,O) \rightarrow S$ where $O$ is external data from a system call to a contract asking for the pri-image of a hash (could be any 0-4.8MBs of data(can we compute the size of that search space?))) and returns a new state. In practice, this is implemented by querying a pre-image of a hash
+  \text{Final state is a state s in S}
+
+The two big high level assumptions we are trying to break are:
 \begin{enumerate}
   \tightlist
   \item An honest player should never loose the dispute game.
   \item It should always be profitable to be an honest player.
 \end{enumerate}
+Meaning we want to attempt to provide evidence by counter example. 
+
+\paragraph{Game resolution (solving the game)}
+
+This is what a \emph{connon-trace provider} does when it solves for the correct trace. 
+This is also how durin will be solving our game states.
+
+The game state is a binary tree where each node is a state and each leaf is an instruction.
+The instructions are ordered left to right (first to last) and read in (Ask ben how many at a time).
+
+\paragraph{scratch notes i need to clean up about game resolution algorithm}
+We define "position" as follows: a position has an index, which is calculated using the formula (2^(self.tree_depth) + self.index_at((zero indexed from left to right)depth)).
+
+In the context of the game, the only actions a player can take are to either agree or disagree to play. Durin functions as a state machine, taking in inputs (r).
+The way durin's cannon trace solver works is described in the bisection algorithm. The same first move (disagree, or disagree) must always be made in order to disagree with a trace.
+this is done by a tree bisdection algorithm in practice, where the leafs of the nodes are the instructions 
+
+
 
 \emph{Disclaimer:} This security review does not guarantee against a
 hack. It is a snapshot in time of brink according to the specific commit
