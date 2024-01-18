@@ -20,17 +20,24 @@ Sucess:
 
 \begin{itemize}
   \item 100M Sims run on a (single or many but takes about 45min to compute) connon trace (on avg 1.5b instructions) with at least 5 agents behaviors.
-  \item Bonding: Something showing the volatility at risk of bonding profile (the probability of a bond going under water for given gas worst case gas movement and what that would mean for Layer one). (was a specific ask)
+  \item Bonding: Something showing the volatility at risk of bonding profile (the probability of a bond going under water for given gas worst case gas movement and what that would mean for Layer one). (was a specific ask), I think we can make suggestions on the best way to price bonds here.
   \item A report with analysis insights outlined for decision makers (this document will evolve into this).
   \item I(Waylon) believe there is value to be offered in theoretical results of strong security properties. This is more the tastful way in which we can deliver this.
 \end{itemize}
 
-\subsubsection{Conservative Time Estimates}
-I believe that is we allocated 2-3 people (Waylon, Colin, maybe Matt), full time work it would take 8 Weeks. 
-I think that we can't work on all of it all the time but there is certainly going to be things that everyone can help out with.
-That being said I think that Matt and Colin have the most experience writing simulations and our the strongest candidates for the job. 
-I waylon want to own this engadge and take responsibility if things go wrong 
+\subsubsection{How Does Primtive Define Sucess}
 
+\begin{itemize}
+  \item A report with analysis insights outlined for decision makers (this document will evolve into this).
+  \item By meeting optimisms success criteria.
+  \item Improving our arbiter api and number of arbiter related assets.
+  \item Capturing Brand value 
+\end{itemize}
+
+\subsubsection{Conservative Time Estimates}
+I believe that is we allocated 2-3 people (Waylon, Colin, maybe Matt), full time work it would take 8 Weeks (ben was trying to convince me we could do it in a month), its possible we could get it done in less. 
+I think that we can't work on all of it all the time but there is certainly going to be things that everyone can help out with.
+That being said I think that Matt and Colin and I have the most experience with Arbiter and are the strongest candidates for the job.
 \subsubsection{Resources on the dispute game}
 
 \begin{itemize}
@@ -70,14 +77,11 @@ This is also how durin will be solving our game states.
 The game state is a binary tree where each node is a state and each leaf is an instruction.
 The instructions are ordered left to right (first to last) and read in (Ask ben how many at a time).
 
-\paragraph{scratch notes i need to clean up about game resolution algorithm}
-We define "position" as follows: a position has an index, which is calculated using the formula (2^(self.tree_depth) + self.index_at((zero indexed from left to right)depth)).
+For any node $n$ on the set of nodes in our tree $N$ The position of a node as an index, which is calculated using the formula $f(n) = 2^{n_d} + n_{i}(Ask ben here)$ where $n_d$ is the depth of the node in the tree and $n_i$ is the index zero indexed from left to right at this depth.
 
 In the context of the game, the only actions a player can take are to either agree or disagree to play. Durin functions as a state machine, taking in inputs (r).
 The way durin's cannon trace solver works is described in the bisection algorithm. The same first move (disagree, or disagree) must always be made in order to disagree with a trace.
 this is done by a tree bisdection algorithm in practice, where the leafs of the nodes are the instructions 
-
-
 
 \emph{Disclaimer:} This security review does not guarantee against a
 hack. It is a snapshot in time of brink according to the specific commit
